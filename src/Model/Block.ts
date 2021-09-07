@@ -2,12 +2,12 @@ import SHA256 from 'crypto-js/sha256';
 
 class Block {
   hash: string;
-  index: string;
-  timestamp: number;
-  data: [string: any];
+  index: number;
+  timestamp: string;
+  data: any;
   previousHash: string;
 
-  constructor(index: string, timestamp: number, data: [string: any], previousHash = '') {
+  constructor(index: number, timestamp: string, data: any, previousHash = '') {
     this.index = index;
     this.timestamp = timestamp;
     this.data = data;
@@ -24,3 +24,5 @@ class Block {
     ).toString();
   }
 }
+
+export default Block;
