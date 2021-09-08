@@ -23,19 +23,12 @@ class Blockchain{
         return [... this.chain].pop()
     }
 
-    // addBlock(newBlock: Block){
-    //     newBlock.previousHash = this.getLatestBlock()!.hash;
-    //     newBlock.mineBlock(this.difficulty);
-    //     this.chain.push(newBlock);
-    // }
-
     minePendingTransactions(miningRewardAddress: string){
         const block = new Block(Date.now(), this.pendingTransactions);
         block.mineBlock(this.difficulty);
         console.log('Block successfully mined!');
         this.chain.push(block);
 
-        //finish
         this.pendingTransactions = [
             new Transaction(null, miningRewardAddress, this.miningReward)
         ];
