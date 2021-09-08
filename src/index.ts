@@ -8,10 +8,11 @@ myCoin.addBlock(new Block(2, '789123', {amount: 10}));
 console.log('BlockChain é válida? '+ myCoin.isChainValid());
 
 myCoin.chain[1].data = {amount: 100000};
+myCoin.chain[1].hash = myCoin.chain[1].calculateHash();
 
 console.log('BlockChain é válida? '+ myCoin.isChainValid());
 
 
 
 
-console.log(JSON.stringify(myCoin, null, 4));
+// console.log(JSON.stringify(myCoin, null, 4));
