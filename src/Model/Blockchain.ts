@@ -23,18 +23,26 @@ class Blockchain{
         return [... this.chain].pop()
     }
 
+
     minePendingTransactions(miningRewardAddress: string){
-        const block = new Block(Date.now(), this.pendingTransactions);
+        const rewardTransaction = new Transaction(null, miningRewardAddress, this.miningReward);
+        this.pendingTransactions.push(rewardTransaction);
+
+        const block = new Block(Date.now(), this.pendingTransactions, this.getLatestBlock()?.hash);
         block.mineBlock(this.difficulty);
+
         console.log('Block successfully mined!');
         this.chain.push(block);
-
-        this.pendingTransactions = [
-            new Transaction(null, miningRewardAddress, this.miningReward)
-        ];
+        this.pendingTransactions = [];
     }
 
-    createTransaction(transaction: Transaction){
+    addTransaction(transaction: Transaction){
+        if(!transaction.toAddress || !transaction.fromAddress){
+            throw new Error('Transaction must include to and from Address!');
+        }
+        if(!transaction.isValid()){
+            throw new Error('Transaction must be valid!');
+        }
         this.pendingTransactions.push(transaction);
     }
 
@@ -61,6 +69,10 @@ class Blockchain{
                 return false;
             }
             if(currentBlock.previousHash !== previousBlock.hash){
+                return false;
+            }
+
+            if(!currentBlock.hasValidTransactions()){
                 return false;
             }
         }
