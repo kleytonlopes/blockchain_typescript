@@ -1,13 +1,14 @@
 import SHA256 from 'crypto-js/sha256';
+import Transaction from './Transaction';
 
 class Block {
   hash: string;
-  timestamp: string;
-  transactions: any;
+  timestamp: number;
+  transactions: Transaction[];
   previousHash: string;
   nonce: number;
 
-  constructor(timestamp: string, transactions: any, previousHash = '') {
+  constructor(timestamp: number, transactions: Transaction[], previousHash = '') {
     this.timestamp = timestamp;
     this.transactions = transactions;
     this.previousHash = previousHash;
