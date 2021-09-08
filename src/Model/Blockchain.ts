@@ -10,7 +10,7 @@ class Blockchain{
     }
 
     createGenesisBlock(){
-        return new Block(0, '1234567890','Genesis Block', '0');
+        return new Block('1234567890','Genesis Block', '0');
     }
 
     getLatestBlock(){
