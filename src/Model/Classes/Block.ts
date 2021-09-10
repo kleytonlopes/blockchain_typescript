@@ -32,6 +32,19 @@ class Block {
     );
   }
 
+  calculateBalance(address: string): number {
+    let balance = 0;
+
+    this.transactions.forEach((transaction: Transaction) => {
+      if (transaction.toAddress === address) {
+        balance += transaction.amount;
+      } else if (transaction.fromAddress === address) {
+        balance -= transaction.amount;
+      }
+    });
+    return balance;
+  }
+
   mineBlock(difficulty: number): void {
     while (
       this.hash.substring(0, difficulty) !== new Array(difficulty + 1).join('0')

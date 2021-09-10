@@ -23,7 +23,7 @@ class Transaction {
     this.amount = amount;
   }
 
-  calculateHash(): string {
+  private calculateHash(): string {
     return this.cryptographyService.getSHA256(
       this.fromAddress + this.toAddress + this.amount,
     );

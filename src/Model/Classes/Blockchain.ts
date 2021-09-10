@@ -64,13 +64,7 @@ class Blockchain {
   getBalanceOfAddress(address: string): number {
     let balance = 0;
     this.chain.forEach(block => {
-      block.transactions.forEach((transaction: Transaction) => {
-        if (transaction.toAddress === address) {
-          balance += transaction.amount;
-        } else if (transaction.fromAddress === address) {
-          balance -= transaction.amount;
-        }
-      });
+      balance += block.calculateBalance(address);
     });
     return balance;
   }
