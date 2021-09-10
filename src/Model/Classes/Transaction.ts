@@ -1,5 +1,5 @@
 import CryptographyInterface from '../Interfaces/CryptographyInterface';
-import EllipticCurveCryptoInterface from '../Interfaces/EllipticCurveCryptoInterface';
+import { EllipticCurveCryptoInterface } from '../Interfaces/EllipticCurveCryptoInterface';
 
 class Transaction {
   cryptographyService: CryptographyInterface;
@@ -29,16 +29,17 @@ class Transaction {
     );
   }
 
-  signTransaction(): void {
-    if (this.ellipticCurveService) {
-      if (this.ellipticCurveService.publicKey !== this.fromAddress) {
-        throw new Error('You cannot sign transactions for other wallets!');
-      }
-      const hashTransaction = this.calculateHash();
-      this.signature = this.ellipticCurveService.sign(hashTransaction);
-    } else {
+  signTransaction(privateKey: string): void {
+    if (!this.ellipticCurveService) {
       throw new Error('The private key was not provided!');
     }
+    const ellipticCurve = this.ellipticCurveService;
+    const publicKey = ellipticCurve.getPublicKeyFromPrivate(privateKey);
+    if (publicKey !== this.fromAddress) {
+      throw new Error('You cannot sign transactions for other wallets!');
+    }
+    const hashTransaction = this.calculateHash();
+    this.signature = ellipticCurve.sign(hashTransaction, privateKey);
   }
 
   isValid(): boolean {
@@ -46,13 +47,14 @@ class Transaction {
     if (!this.signature || this.signature.length === 0) {
       throw new Error('No Signature in this transaction!');
     }
-    if (this.ellipticCurveService) {
-      return this.ellipticCurveService?.signatureIsValid(
-        this.calculateHash(),
-        this.signature,
-      );
+    if (!this.ellipticCurveService) {
+      return true;
     }
-    return true;
+    return this.ellipticCurveService?.signatureIsValid(
+      this.calculateHash(),
+      this.fromAddress,
+      this.signature,
+    );
   }
 }
 

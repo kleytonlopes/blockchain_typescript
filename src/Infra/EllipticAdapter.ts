@@ -1,25 +1,41 @@
 import EC from 'elliptic';
 const ec = new EC.ec('secp256k1');
-import EllipticCurveCryptoInterface from '../Model/Interfaces/EllipticCurveCryptoInterface';
+import {
+  EllipticCurveCryptoInterface,
+  TypeKeys,
+} from '../Model/Interfaces/EllipticCurveCryptoInterface';
 
 class EllipticAdapter implements EllipticCurveCryptoInterface {
-  publicKey: string;
-  privateKey: string;
-  private keyPar: EC.ec.KeyPair;
-
-  constructor(privateKey?: string) {
-    this.keyPar = privateKey ? ec.keyFromPrivate(privateKey) : ec.genKeyPair();
-    this.privateKey = this.keyPar.getPrivate('hex');
-    this.publicKey = this.keyPar.getPublic('hex');
-  }
-  signatureIsValid(value: string, signature: string): boolean {
-    const publicKey = ec.keyFromPublic(this.publicKey, 'hex');
-    return publicKey.verify(value, signature);
+  private keyParFromPrivate(key: string) {
+    return ec.keyFromPrivate(key);
   }
 
-  sign(value: string): string {
-    const signature = this.keyPar.sign(value, 'base64');
+  createKeys(): TypeKeys {
+    const keyPar = ec.genKeyPair();
+    return {
+      privateKey: keyPar.getPrivate('hex'),
+      publicKey: keyPar.getPublic('hex'),
+    };
+  }
+
+  sign(value: string, privateKey: string): string {
+    const keyPar = this.keyParFromPrivate(privateKey);
+    const signature = keyPar.sign(value, 'base64');
     return signature.toDER('hex');
+  }
+
+  getPublicKeyFromPrivate(key: string): string {
+    const keyPar = this.keyParFromPrivate(key);
+    return keyPar.getPublic('hex');
+  }
+
+  signatureIsValid(
+    value: string,
+    publicKey: string,
+    signature: string,
+  ): boolean {
+    const keyPar = ec.keyFromPublic(publicKey, 'hex');
+    return keyPar.verify(value, signature);
   }
 }
 

@@ -7,7 +7,8 @@ const addressB = 'public key b';
 
 const cryptographyService = new CryptoJSAdapter();
 const ellipticService = new EllipticAdapter();
-const myWalletAddress = ellipticService.publicKey;
+const currentKeys = ellipticService.createKeys();
+const myWalletAddress = currentKeys.publicKey;
 
 const myCoin = new Blockchain(cryptographyService);
 
@@ -18,7 +19,7 @@ const trx1 = new Transaction(
   addressB,
   10,
 );
-trx1.signTransaction();
+trx1.signTransaction(currentKeys.privateKey);
 myCoin.addTransaction(trx1);
 
 console.log('--> starting mining');
