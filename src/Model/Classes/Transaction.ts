@@ -1,9 +1,9 @@
-import EC from 'elliptic';
 import CryptographyInterface from '../Interfaces/CryptographyInterface';
-const ec = new EC.ec('secp256k1');
+import EllipticCurveCryptoInterface from '../Interfaces/EllipticCurveCryptoInterface';
 
 class Transaction {
   cryptographyService: CryptographyInterface;
+  ellipticCurveService: EllipticCurveCryptoInterface | null;
   fromAddress: string | null;
   toAddress: string;
   amount: number;
@@ -11,11 +11,13 @@ class Transaction {
 
   constructor(
     cryptographyService: CryptographyInterface,
+    ellipticCurveService: EllipticCurveCryptoInterface | null,
     fromAddress: string | null,
     toAddress: string,
     amount: number,
   ) {
     this.cryptographyService = cryptographyService;
+    this.ellipticCurveService = ellipticCurveService;
     this.fromAddress = fromAddress;
     this.toAddress = toAddress;
     this.amount = amount;
@@ -27,13 +29,16 @@ class Transaction {
     );
   }
 
-  signTransaction(signingKey: EC.ec.KeyPair): void {
-    if (signingKey.getPublic('hex') !== this.fromAddress) {
-      throw new Error('You cannot sign transactions for other wallets!');
+  signTransaction(): void {
+    if (this.ellipticCurveService) {
+      if (this.ellipticCurveService.publicKey !== this.fromAddress) {
+        throw new Error('You cannot sign transactions for other wallets!');
+      }
+      const hashTransaction = this.calculateHash();
+      this.signature = this.ellipticCurveService.sign(hashTransaction);
+    } else {
+      throw new Error('The private key was not provided!');
     }
-    const hashTransaction = this.calculateHash();
-    const signature = signingKey.sign(hashTransaction, 'base64');
-    this.signature = signature.toDER('hex');
   }
 
   isValid(): boolean {
@@ -41,8 +46,13 @@ class Transaction {
     if (!this.signature || this.signature.length === 0) {
       throw new Error('No Signature in this transaction!');
     }
-    const publicKey = ec.keyFromPublic(this.fromAddress, 'hex');
-    return publicKey.verify(this.calculateHash(), this.signature);
+    if (this.ellipticCurveService) {
+      return this.ellipticCurveService?.signatureIsValid(
+        this.calculateHash(),
+        this.signature,
+      );
+    }
+    return true;
   }
 }
 

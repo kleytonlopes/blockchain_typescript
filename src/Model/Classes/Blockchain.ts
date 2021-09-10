@@ -31,6 +31,7 @@ class Blockchain {
       const rewardTransaction = new Transaction(
         this.cryptographyService,
         null,
+        null,
         miningRewardAddress,
         this.miningReward,
       );

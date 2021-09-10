@@ -1,22 +1,24 @@
-import EC from 'elliptic';
-const ec = new EC.ec('secp256k1');
-
 import Blockchain from './Model/Classes/Blockchain';
 import Transaction from './Model/Classes/Transaction';
-import KeyGenerator from './Model/Classes/KeyGenerator';
 import CryptoJSAdapter from './Infra/CryptoJsAdapter';
+import EllipticAdapter from './Infra/EllipticAdapter';
 
 const addressB = 'public key b';
 
-const keys = KeyGenerator.generateKeys();
-const myKey = ec.keyFromPrivate(keys.privateKey);
-const myWalletAddress = myKey.getPublic('hex');
-
 const cryptographyService = new CryptoJSAdapter();
+const ellipticService = new EllipticAdapter();
+const myWalletAddress = ellipticService.publicKey;
+
 const myCoin = new Blockchain(cryptographyService);
 
-const trx1 = new Transaction(myWalletAddress, addressB, 10);
-trx1.signTransaction(myKey);
+const trx1 = new Transaction(
+  cryptographyService,
+  ellipticService,
+  myWalletAddress,
+  addressB,
+  10,
+);
+trx1.signTransaction();
 myCoin.addTransaction(trx1);
 
 console.log('--> starting mining');
