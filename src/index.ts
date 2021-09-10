@@ -1,9 +1,9 @@
 import EC from 'elliptic';
 const ec = new EC.ec('secp256k1');
 
-import Blockchain from './Model/Blockchain'
-import Transaction from './Model/Transaction';
-import KeyGenerator from './Model/KeyGenerator';
+import Blockchain from './Model/Classes/Blockchain';
+import Transaction from './Model/Classes/Transaction';
+import KeyGenerator from './Model/Classes/KeyGenerator';
 
 const addressB = 'public key b';
 
