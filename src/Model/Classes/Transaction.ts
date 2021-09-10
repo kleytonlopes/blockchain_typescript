@@ -1,21 +1,30 @@
-import SHA256 from 'crypto-js/sha256';
 import EC from 'elliptic';
+import CryptographyInterface from '../Interfaces/CryptographyInterface';
 const ec = new EC.ec('secp256k1');
 
 class Transaction {
+  cryptographyService: CryptographyInterface;
   fromAddress: string | null;
   toAddress: string;
   amount: number;
   signature?: string;
 
-  constructor(fromAddress: string | null, toAddress: string, amount: number) {
+  constructor(
+    cryptographyService: CryptographyInterface,
+    fromAddress: string | null,
+    toAddress: string,
+    amount: number,
+  ) {
+    this.cryptographyService = cryptographyService;
     this.fromAddress = fromAddress;
     this.toAddress = toAddress;
     this.amount = amount;
   }
 
   calculateHash(): string {
-    return SHA256(this.fromAddress + this.toAddress + this.amount).toString();
+    return this.cryptographyService.getSHA256(
+      this.fromAddress + this.toAddress + this.amount,
+    );
   }
 
   signTransaction(signingKey: EC.ec.KeyPair): void {

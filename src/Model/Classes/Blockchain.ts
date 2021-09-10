@@ -29,6 +29,7 @@ class Blockchain {
     const lastBlock = this.getLatestBlock();
     if (lastBlock) {
       const rewardTransaction = new Transaction(
+        this.cryptographyService,
         null,
         miningRewardAddress,
         this.miningReward,
