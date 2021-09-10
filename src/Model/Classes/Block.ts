@@ -1,7 +1,8 @@
-import SHA256 from 'crypto-js/sha256';
+import CryptographyInterface from '../Interfaces/CryptographyInterface';
 import Transaction from './Transaction';
 
 class Block {
+  cryptographyService: CryptographyInterface;
   hash: string;
   timestamp: number;
   transactions: Transaction[];
@@ -9,10 +10,12 @@ class Block {
   nonce: number;
 
   constructor(
+    cryptographyService: CryptographyInterface,
     timestamp: number,
     transactions: Transaction[],
     previousHash = '',
   ) {
+    this.cryptographyService = cryptographyService;
     this.timestamp = timestamp;
     this.transactions = transactions;
     this.previousHash = previousHash;
@@ -21,12 +24,12 @@ class Block {
   }
 
   calculateHash(): string {
-    return SHA256(
+    return this.cryptographyService.getSHA256(
       this.previousHash +
         this.timestamp +
         JSON.stringify(this.transactions) +
         this.nonce,
-    ).toString();
+    );
   }
 
   mineBlock(difficulty: number): void {

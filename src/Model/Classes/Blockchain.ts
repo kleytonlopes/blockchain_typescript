@@ -1,13 +1,16 @@
+import CryptographyInterface from '../Interfaces/CryptographyInterface';
 import Block from './Block';
 import Transaction from './Transaction';
 
 class Blockchain {
+  cryptographyService: CryptographyInterface;
   chain: Block[];
   pendingTransactions: Transaction[];
   difficulty: number;
   miningReward: number;
 
-  constructor() {
+  constructor(cryptographyService: CryptographyInterface) {
+    this.cryptographyService = cryptographyService;
     this.chain = [this.createGenesisBlock()];
     this.pendingTransactions = [];
     this.difficulty = 2;
@@ -15,7 +18,7 @@ class Blockchain {
   }
 
   createGenesisBlock(): Block {
-    return new Block(Date.now(), [], '0');
+    return new Block(this.cryptographyService, Date.now(), [], '0');
   }
 
   getLatestBlock(): Block | undefined {
@@ -33,6 +36,7 @@ class Blockchain {
       this.pendingTransactions.push(rewardTransaction);
 
       const block = new Block(
+        this.cryptographyService,
         Date.now(),
         this.pendingTransactions,
         lastBlock.hash,

@@ -4,6 +4,7 @@ const ec = new EC.ec('secp256k1');
 import Blockchain from './Model/Classes/Blockchain';
 import Transaction from './Model/Classes/Transaction';
 import KeyGenerator from './Model/Classes/KeyGenerator';
+import CryptoJSAdapter from './Infra/CryptoJsAdapter';
 
 const addressB = 'public key b';
 
@@ -11,7 +12,8 @@ const keys = KeyGenerator.generateKeys();
 const myKey = ec.keyFromPrivate(keys.privateKey);
 const myWalletAddress = myKey.getPublic('hex');
 
-const myCoin = new Blockchain();
+const cryptographyService = new CryptoJSAdapter();
+const myCoin = new Blockchain(cryptographyService);
 
 const trx1 = new Transaction(myWalletAddress, addressB, 10);
 trx1.signTransaction(myKey);
