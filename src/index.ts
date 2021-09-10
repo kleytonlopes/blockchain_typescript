@@ -3,12 +3,11 @@ import Transaction from './Model/Classes/Transaction';
 import CryptoJSAdapter from './Infra/CryptoJsAdapter';
 import EllipticAdapter from './Infra/EllipticAdapter';
 
-const addressB = 'public key b';
-
 const cryptographyService = new CryptoJSAdapter();
 const ellipticService = new EllipticAdapter();
 const currentKeys = ellipticService.createKeys();
 const myWalletAddress = currentKeys.publicKey;
+const walletAddressB = ellipticService.createKeys().publicKey;
 
 const myCoin = new Blockchain(cryptographyService);
 
@@ -16,7 +15,7 @@ const trx1 = new Transaction(
   cryptographyService,
   ellipticService,
   myWalletAddress,
-  addressB,
+  walletAddressB,
   10,
 );
 trx1.signTransaction(currentKeys.privateKey);
