@@ -1,4 +1,4 @@
-import BlockchainInterface from './Model/Interfaces/BlockchainInterface';
+import BlockchainInterface from './App/Interfaces/BlockchainInterface';
 import EllipticAdapterFactory from './Factories/EllipticAdapterFactory';
 import TransactionFactory from './Factories/TransactionFactory';
 import BlockchainFactory from './Factories/BlockchainFactory';

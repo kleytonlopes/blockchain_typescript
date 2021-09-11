@@ -1,7 +1,7 @@
-import Block from '../Model/Classes/Block';
-import BlockInterface from '../Model/Interfaces/BlockInterface';
-import CryptographyInterface from '../Model/Interfaces/CryptographyInterface';
-import TransactionInterface from '../Model/Interfaces/TransactionInterface';
+import Block from '../App/Classes/Block';
+import BlockInterface from '../App/Interfaces/BlockInterface';
+import CryptographyInterface from '../App/Interfaces/CryptographyInterface';
+import TransactionInterface from '../App/Interfaces/TransactionInterface';
 import CryptoJSAdapterFactory from './CryptoJSAdapterFactory';
 export default {
   create: function BlockFactory(

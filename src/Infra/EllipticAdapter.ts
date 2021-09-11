@@ -3,7 +3,7 @@ const ec = new EC.ec('secp256k1');
 import {
   EllipticCurveCryptoInterface,
   TypeKeys,
-} from '../Model/Interfaces/EllipticCurveCryptoInterface';
+} from '../App/Interfaces/EllipticCurveCryptoInterface';
 
 class EllipticAdapter implements EllipticCurveCryptoInterface {
   private keyParFromPrivate(key: string) {

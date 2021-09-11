@@ -1,7 +1,7 @@
-import Transaction from '../Model/Classes/Transaction';
-import TransactionInterface from '../Model/Interfaces/TransactionInterface';
-import CryptographyInterface from '../Model/Interfaces/CryptographyInterface';
-import { EllipticCurveCryptoInterface } from '../Model/Interfaces/EllipticCurveCryptoInterface';
+import Transaction from '../App/Classes/Transaction';
+import TransactionInterface from '../App/Interfaces/TransactionInterface';
+import CryptographyInterface from '../App/Interfaces/CryptographyInterface';
+import { EllipticCurveCryptoInterface } from '../App/Interfaces/EllipticCurveCryptoInterface';
 import CryptoJSAdapterFactory from './CryptoJSAdapterFactory';
 import EllipticAdapterFactory from './EllipticAdapterFactory';
 export default {

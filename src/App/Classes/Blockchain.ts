@@ -1,4 +1,3 @@
-import CryptographyInterface from '../Interfaces/CryptographyInterface';
 import BlockFactory from '../../Factories/BlockFactory';
 import BlockInterface from '../Interfaces/BlockInterface';
 import TransactionFactory from '../../Factories/TransactionFactory';
@@ -6,14 +5,12 @@ import TransactionInterface from '../Interfaces/TransactionInterface';
 import BlockchainInterface from '../Interfaces/BlockchainInterface';
 
 class Blockchain implements BlockchainInterface {
-  cryptographyService: CryptographyInterface;
   chain: BlockInterface[];
   pendingTransactions: TransactionInterface[];
   difficulty: number;
   miningReward: number;
 
-  constructor(cryptographyService: CryptographyInterface) {
-    this.cryptographyService = cryptographyService;
+  constructor() {
     this.chain = [this.createGenesisBlock()];
     this.pendingTransactions = [];
     this.difficulty = 2;

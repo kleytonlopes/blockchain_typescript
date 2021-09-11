@@ -1,6 +1,6 @@
-import Blockchain from '../Model/Classes/Blockchain';
-import BlockchainInterface from '../Model/Interfaces/BlockchainInterface';
-import CryptographyInterface from '../Model/Interfaces/CryptographyInterface';
+import Blockchain from '../App/Classes/Blockchain';
+import BlockchainInterface from '../App/Interfaces/BlockchainInterface';
+import CryptographyInterface from '../App/Interfaces/CryptographyInterface';
 
 export default {
   create: function BlockchainFactory(): BlockchainInterface {
