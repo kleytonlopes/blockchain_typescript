@@ -1,18 +1,18 @@
 import CryptographyInterface from '../Interfaces/CryptographyInterface';
-import Transaction from './Transaction';
+import TransactionInterface from '../Interfaces/TransactionInterface';
 
 class Block {
   cryptographyService: CryptographyInterface;
   hash: string;
   timestamp: number;
-  transactions: Transaction[];
+  transactions: TransactionInterface[];
   previousHash: string;
   nonce: number;
 
   constructor(
     cryptographyService: CryptographyInterface,
     timestamp: number,
-    transactions: Transaction[],
+    transactions: TransactionInterface[],
     previousHash = '',
   ) {
     this.cryptographyService = cryptographyService;
@@ -34,13 +34,8 @@ class Block {
 
   calculateBalance(address: string): number {
     let balance = 0;
-
-    this.transactions.forEach((transaction: Transaction) => {
-      if (transaction.toAddress === address) {
-        balance += transaction.amount;
-      } else if (transaction.fromAddress === address) {
-        balance -= transaction.amount;
-      }
+    this.transactions.forEach((transaction: TransactionInterface) => {
+      balance += transaction.calculateAmount(address);
     });
     return balance;
   }

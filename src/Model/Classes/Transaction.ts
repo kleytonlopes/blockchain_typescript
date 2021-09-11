@@ -1,7 +1,8 @@
 import CryptographyInterface from '../Interfaces/CryptographyInterface';
 import { EllipticCurveCryptoInterface } from '../Interfaces/EllipticCurveCryptoInterface';
+import TransactionInterface from '../Interfaces/TransactionInterface';
 
-class Transaction {
+class Transaction implements TransactionInterface {
   cryptographyService: CryptographyInterface;
   ellipticCurveService: EllipticCurveCryptoInterface | null;
   fromAddress: string | null;
@@ -21,6 +22,16 @@ class Transaction {
     this.fromAddress = fromAddress;
     this.toAddress = toAddress;
     this.amount = amount;
+  }
+  calculateAmount(address: string): number {
+    switch (address) {
+      case this.toAddress:
+        return this.amount;
+      case this.fromAddress:
+        return -1 * this.amount;
+      default:
+        return 0;
+    }
   }
 
   private calculateHash(): string {

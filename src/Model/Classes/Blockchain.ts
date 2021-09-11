@@ -1,11 +1,12 @@
 import CryptographyInterface from '../Interfaces/CryptographyInterface';
 import Block from './Block';
 import Transaction from './Transaction';
+import TransactionInterface from '../Interfaces/TransactionInterface';
 
 class Blockchain {
   cryptographyService: CryptographyInterface;
   chain: Block[];
-  pendingTransactions: Transaction[];
+  pendingTransactions: TransactionInterface[];
   difficulty: number;
   miningReward: number;
 

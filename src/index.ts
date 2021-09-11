@@ -27,6 +27,6 @@ myCoin.minePendingTransactions(myWalletAddress);
 
 console.log('Balance: ' + myCoin.getBalanceOfAddress(myWalletAddress));
 
-myCoin.chain[1].transactions[0].amount = 1000000;
+// myCoin.chain[1].transactions[0].amount = 1000000;
 
 console.log('is valid: ' + myCoin.isChainValid());
