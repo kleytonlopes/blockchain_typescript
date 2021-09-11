@@ -1,7 +1,7 @@
 import CryptographyInterface from '../Interfaces/CryptographyInterface';
 import BlockFactory from '../../Factories/BlockFactory';
 import BlockInterface from '../Interfaces/BlockInterface';
-import Transaction from './Transaction';
+import TransactionFactory from '../../Factories/TransactionFactory';
 import TransactionInterface from '../Interfaces/TransactionInterface';
 import BlockchainInterface from '../Interfaces/BlockchainInterface';
 
@@ -31,7 +31,7 @@ class Blockchain implements BlockchainInterface {
   minePendingTransactions(miningRewardAddress: string): void {
     const lastBlock = this.getLatestBlock();
     if (lastBlock) {
-      const rewardTransaction = new Transaction(
+      const rewardTransaction = TransactionFactory.create(
         this.cryptographyService,
         null,
         null,
@@ -53,8 +53,8 @@ class Blockchain implements BlockchainInterface {
     }
   }
 
-  addTransaction(transaction: Transaction): void {
-    if (!transaction.toAddress || !transaction.fromAddress) {
+  addTransaction(transaction: TransactionInterface): void {
+    if (transaction.adressesAreValid()) {
       throw new Error('Transaction must include to and from Address!');
     }
     if (!transaction.isValid()) {

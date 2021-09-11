@@ -3,6 +3,7 @@ import BlockchainInterface from './Model/Interfaces/BlockchainInterface';
 import Transaction from './Model/Classes/Transaction';
 import CryptoJSAdapter from './Infra/CryptoJsAdapter';
 import EllipticAdapter from './Infra/EllipticAdapter';
+import TransactionFactory from './Factories/TransactionFactory';
 
 const cryptographyService = new CryptoJSAdapter();
 const ellipticService = new EllipticAdapter();
@@ -12,7 +13,7 @@ const walletAddressB = ellipticService.createKeys().publicKey;
 
 const myCoin: BlockchainInterface = new Blockchain(cryptographyService);
 
-const trx1 = new Transaction(
+const trx1 = TransactionFactory.create(
   cryptographyService,
   ellipticService,
   myWalletAddress,

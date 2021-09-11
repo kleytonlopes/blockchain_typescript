@@ -23,6 +23,9 @@ class Transaction implements TransactionInterface {
     this.toAddress = toAddress;
     this.amount = amount;
   }
+  adressesAreValid(): boolean {
+    return !this.toAddress || !this.fromAddress;
+  }
   calculateAmount(address: string): number {
     switch (address) {
       case this.toAddress:
