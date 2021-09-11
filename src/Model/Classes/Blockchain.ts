@@ -21,7 +21,7 @@ class Blockchain implements BlockchainInterface {
   }
 
   createGenesisBlock(): BlockInterface {
-    return BlockFactory.create(this.cryptographyService, [], '0');
+    return BlockFactory.create('0');
   }
 
   getLatestBlock(): BlockInterface | undefined {
@@ -41,9 +41,8 @@ class Blockchain implements BlockchainInterface {
       this.pendingTransactions.push(rewardTransaction);
 
       const block = BlockFactory.create(
-        this.cryptographyService,
-        this.pendingTransactions,
         lastBlock.hash,
+        this.pendingTransactions,
       );
       block.mineBlock(this.difficulty);
 
