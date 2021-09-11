@@ -2,17 +2,12 @@ import BlockchainInterface from './Model/Interfaces/BlockchainInterface';
 import EllipticAdapterFactory from './Factories/EllipticAdapterFactory';
 import TransactionFactory from './Factories/TransactionFactory';
 import BlockchainFactory from './Factories/BlockchainFactory';
-import CryptoJSAdapterFactory from './Factories/CryptoJSAdapterFactory';
-
-const cryptographyService = CryptoJSAdapterFactory.create();
 const ellipticService = EllipticAdapterFactory.create();
 const currentKeys = ellipticService.createKeys();
 const myWalletAddress = currentKeys.publicKey;
 const walletAddressB = ellipticService.createKeys().publicKey;
 
-const myCoin: BlockchainInterface = BlockchainFactory.create(
-  cryptographyService,
-);
+const myCoin: BlockchainInterface = BlockchainFactory.create();
 
 const trx1 = TransactionFactory.create(walletAddressB, 10, myWalletAddress);
 trx1.signTransaction(currentKeys.privateKey);
