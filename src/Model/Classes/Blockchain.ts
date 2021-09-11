@@ -3,8 +3,9 @@ import BlockFactory from '../../Factories/BlockFactory';
 import BlockInterface from '../Interfaces/BlockInterface';
 import Transaction from './Transaction';
 import TransactionInterface from '../Interfaces/TransactionInterface';
+import BlockchainInterface from '../Interfaces/BlockchainInterface';
 
-class Blockchain {
+class Blockchain implements BlockchainInterface {
   cryptographyService: CryptographyInterface;
   chain: BlockInterface[];
   pendingTransactions: TransactionInterface[];
