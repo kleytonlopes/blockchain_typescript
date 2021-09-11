@@ -1,10 +1,10 @@
 import BlockchainInterface from './Model/Interfaces/BlockchainInterface';
-import CryptoJSAdapter from './Infra/CryptoJsAdapter';
 import EllipticAdapter from './Infra/EllipticAdapter';
 import TransactionFactory from './Factories/TransactionFactory';
 import BlockchainFactory from './Factories/BlockchainFactory';
+import CryptoJSAdapterFactory from './Factories/CryptoJSAdapterFactory';
 
-const cryptographyService = new CryptoJSAdapter();
+const cryptographyService = CryptoJSAdapterFactory.create();
 const ellipticService = new EllipticAdapter();
 const currentKeys = ellipticService.createKeys();
 const myWalletAddress = currentKeys.publicKey;

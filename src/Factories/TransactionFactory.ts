@@ -4,14 +4,14 @@ import CryptographyInterface from '../Model/Interfaces/CryptographyInterface';
 import { EllipticCurveCryptoInterface } from '../Model/Interfaces/EllipticCurveCryptoInterface';
 export default {
   create: function TransactionFactory(
-    cryptoInterface: CryptographyInterface,
+    crypto: CryptographyInterface,
     ellipticCurveCrypto: EllipticCurveCryptoInterface | null,
     fromAddress: string | null,
     toAddress: string,
     amount: number,
   ): TransactionInterface {
     return new Transaction(
-      cryptoInterface,
+      crypto,
       ellipticCurveCrypto,
       fromAddress,
       toAddress,
