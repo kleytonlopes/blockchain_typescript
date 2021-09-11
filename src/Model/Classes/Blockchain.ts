@@ -32,11 +32,10 @@ class Blockchain implements BlockchainInterface {
     const lastBlock = this.getLatestBlock();
     if (lastBlock) {
       const rewardTransaction = TransactionFactory.create(
-        this.cryptographyService,
-        null,
-        null,
         miningRewardAddress,
         this.miningReward,
+        null,
+        null,
       );
       this.pendingTransactions.push(rewardTransaction);
 

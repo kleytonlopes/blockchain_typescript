@@ -14,13 +14,7 @@ const myCoin: BlockchainInterface = BlockchainFactory.create(
   cryptographyService,
 );
 
-const trx1 = TransactionFactory.create(
-  cryptographyService,
-  ellipticService,
-  myWalletAddress,
-  walletAddressB,
-  10,
-);
+const trx1 = TransactionFactory.create(walletAddressB, 10, myWalletAddress);
 trx1.signTransaction(currentKeys.privateKey);
 myCoin.addTransaction(trx1);
 
