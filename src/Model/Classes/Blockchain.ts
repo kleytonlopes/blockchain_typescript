@@ -1,11 +1,12 @@
 import CryptographyInterface from '../Interfaces/CryptographyInterface';
-import Block from './Block';
+import BlockFactory from '../../Factories/BlockFactory';
+import BlockInterface from '../Interfaces/BlockInterface';
 import Transaction from './Transaction';
 import TransactionInterface from '../Interfaces/TransactionInterface';
 
 class Blockchain {
   cryptographyService: CryptographyInterface;
-  chain: Block[];
+  chain: BlockInterface[];
   pendingTransactions: TransactionInterface[];
   difficulty: number;
   miningReward: number;
@@ -18,11 +19,11 @@ class Blockchain {
     this.miningReward = 100;
   }
 
-  createGenesisBlock(): Block {
-    return new Block(this.cryptographyService, Date.now(), [], '0');
+  createGenesisBlock(): BlockInterface {
+    return BlockFactory.create(this.cryptographyService, [], '0');
   }
 
-  getLatestBlock(): Block | undefined {
+  getLatestBlock(): BlockInterface | undefined {
     return [...this.chain].pop();
   }
 
@@ -38,9 +39,8 @@ class Blockchain {
       );
       this.pendingTransactions.push(rewardTransaction);
 
-      const block = new Block(
+      const block = BlockFactory.create(
         this.cryptographyService,
-        Date.now(),
         this.pendingTransactions,
         lastBlock.hash,
       );

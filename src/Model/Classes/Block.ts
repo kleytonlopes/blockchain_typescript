@@ -1,13 +1,14 @@
+import BlockInterface from '../Interfaces/BlockInterface';
 import CryptographyInterface from '../Interfaces/CryptographyInterface';
 import TransactionInterface from '../Interfaces/TransactionInterface';
 
-class Block {
-  cryptographyService: CryptographyInterface;
+class Block implements BlockInterface {
+  private cryptographyService: CryptographyInterface;
   hash: string;
-  timestamp: number;
-  transactions: TransactionInterface[];
   previousHash: string;
-  nonce: number;
+  private timestamp: number;
+  private transactions: TransactionInterface[];
+  private nonce: number;
 
   constructor(
     cryptographyService: CryptographyInterface,
